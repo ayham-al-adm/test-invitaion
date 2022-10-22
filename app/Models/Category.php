@@ -30,7 +30,8 @@ class Category extends Model
     // -------------------- Methods -------------------
     public function canContainSubs()
     {
-        return !$this->items()->exists();
+        return (!$this->items()->exists())
+            && ($this->level <= 4);
     }
 
     public function canContainItems()
@@ -38,6 +39,16 @@ class Category extends Model
         return !$this->subs()->exists();
     }
 
+    public function getLevelAttribute()
+    {
+        $level = 1;
+        $parent = $this->parent;
+        while ($parent) {
+            $level++;
+            $parent = $parent->parent;
+        }
+        return $level;
+    }
     // -------------------- Overrides -------------------
 
     public static function boot()
