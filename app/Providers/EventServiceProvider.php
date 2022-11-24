@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\AddNewAttendance;
+use App\Events\AddNewInvitation;
+use App\Listeners\SendInvitationMail;
+use App\Listeners\SendWelcomeAttendMail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -18,6 +22,12 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        AddNewInvitation::class => [
+            SendInvitationMail::class,
+        ],
+        AddNewAttendance::class => [
+            SendWelcomeAttendMail::class,
+        ]
     ];
 
     /**
